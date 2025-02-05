@@ -1,29 +1,24 @@
+
 {
-  "name": "javascript",
+  "name": "api-proxy-server",
   "version": "1.0.0",
+  "description": "Proxy server to hide public API keys with rate limiting, caching",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index",
+    "dev": "nodemon index"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Brad Traversy",
+  "license": "MIT",
   "dependencies": {
-    "apicache": "^1.6.3",
-    "axios": "^1.7.7",
-    "cache": "^3.0.0",
+    "apicache": "^1.6.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "express-rate-limit": "^7.4.0",
-    "memory-cache": "^0.2.0",
-    "needle": "^3.3.1",
-    "node-cache": "^5.1.2",
-    "rate-limit": "^0.1.1"
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.5.0",
+    "needle": "^3.0.0"
   },
-  "description": "",
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^2.0.14"
   }
 }
