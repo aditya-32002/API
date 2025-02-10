@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <br><br>
+    <h1 class="text-center">
+      Weather App
+    </h1>
+    <div class="weather text-center"></div>
+    <br><br>
+    <form id="form">
+      <div class="form-group container">
+        <input type="text" id="city" placeholder="Enter City Name" required class="form-control container">
+      </div>
+      <div class="form-group container">
+        <button class="btn btn-danger btn-block">
+          Get Current Weather
+        </button>
+      </div>
+    </form>
+  </div>
+  <script>
+    const weatherDisplay = document.querySelector(".weather");
+    const weatherForm = document.querySelector("form");
+    const cityInput = document.querySelector("#city");
+
+    // fetch weather    
+    const fetchweather = async (city) => {
+      const url = `/getweather?q=${city}`;
+
+      const res = await fetch(url)
+
+      if (res.status === 404) {
+        alert("city not found");
+        return;
+      }
+
+      if (res.status === 401) {
+        alert("invalid API key");
+        return;
+      }
+
+      if (res.status === 429) {
+        alert("Too Many Request")
+        return;
+      }
+      console.log(res.status)
+      const data = await res.json()
+      console.log(data)
+
+      const displayData = {
+        city: data.data.name,
+        temp: converttoCelcius(kelvinToFahrenheit(data.data.main.temp)),
+      };
+
+      addWeatherToDOM(displayData);
+    };
+
+    //add display to DOM
+    const addWeatherToDOM = (data) => {
+      weatherDisplay.innerHTML = `
+    <h1>Weather in ${data.city}</h1>
+    <h2>${data.temp} °C</h2>
+    `;
+      cityInput.value = "";
+    };
+    // convert kelvin to Fahrenheit
+    const kelvinToFahrenheit = (temp) => {
+      return Math.ceil(((temp - 273.15) * 9) / 5 + 32);
+    };
+
+    const converttoCelcius = (temp) => {
+      return Math.ceil((temp - 32) / 1.8)
+    }
+
+    // event listener for submission
+    weatherForm.addEventListener("submit",(e) => {
+      e.preventDefault();
+
+      if (cityInput.value === "") {
+        alert("please enter a city");
+      } else {
+        fetchweather(cityInput.value);
+      }
+ });
+
+
+  </script>
+</body>
+
+</html>
